@@ -53,7 +53,7 @@
       display: flex;
       gap: 14px;
       align-items: center;
-      margin-bottom: 22px;
+      margin-bottom: 0;
     }
 
     .brand-mark {
@@ -590,16 +590,16 @@
     }
 
     .list-item.execution {
-      background: rgba(46,108,255,0.025);
-      border-left: 2px solid var(--blue);
-      padding-left: 9px;
-      margin-left: -9px;
+      background: transparent;
+      border-left: 3px solid var(--blue);
+      padding-left: 10px;
+      margin-left: -10px;
       border-radius: 0;
       cursor: default;
     }
 
     .list-item.execution:hover {
-      background: rgba(46,108,255,0.05);
+      background: transparent;
     }
 
     .footnote {
@@ -1015,18 +1015,19 @@
 
     /* Botão de busca na sidebar */
     .sidebar-search-btn {
+      display: flex;
       width: 100%;
       height: 40px;
       background: var(--panel-2);
       border: 1px solid var(--line);
       border-radius: 12px;
       padding: 0 12px;
-      display: flex;
       align-items: center;
       gap: 10px;
       cursor: pointer;
       font-family: inherit;
-      margin-bottom: 18px;
+      margin-top: 20px;
+      margin-bottom: 20px;
       transition: border-color 140ms;
     }
 
@@ -1246,6 +1247,199 @@
       font-weight: 600;
       color: var(--text);
       margin-right: 4px;
+    }
+
+    /* ======== EXPORT LINK MODAL — Link compartilhável de evidências ======== */
+
+    .export-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17, 24, 39, 0.5);
+      z-index: 1002;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 150ms;
+    }
+
+    .export-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .export-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, calc(-50% + 10px));
+      width: 480px;
+      max-width: calc(100vw - 40px);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+      z-index: 1003;
+      padding: 32px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 200ms, transform 200ms cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    .export-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%);
+    }
+
+    .export-success-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      background: rgba(18, 183, 106, 0.15);
+      display: grid;
+      place-items: center;
+      margin-bottom: 16px;
+    }
+
+    .export-success-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--green);
+    }
+
+    .export-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 6px;
+      color: var(--text);
+    }
+
+    .export-subtitle {
+      font-size: 13px;
+      color: var(--muted);
+      margin: 0;
+      line-height: 1.45;
+    }
+
+    .export-link-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--panel-2);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0 12px;
+      height: 48px;
+      margin-top: 20px;
+    }
+
+    .export-link-url {
+      flex: 1;
+      font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, monospace;
+      font-size: 12px;
+      color: var(--text);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .export-link-copy-btn {
+      border: 1px solid var(--line);
+      background: white;
+      border-radius: 8px;
+      padding: 6px 10px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: border-color 140ms, color 140ms;
+    }
+
+    .export-link-copy-btn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    .export-link-copy-btn.copied {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .export-checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-top: 16px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .export-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--line);
+      border-radius: 5px;
+      background: white;
+      display: grid;
+      place-items: center;
+      transition: all 140ms;
+      flex-shrink: 0;
+    }
+
+    .export-checkbox svg {
+      width: 12px;
+      height: 12px;
+      color: white;
+      opacity: 0;
+      transition: opacity 120ms;
+    }
+
+    .export-checkbox.checked {
+      background: var(--blue);
+      border-color: var(--blue);
+    }
+
+    .export-checkbox.checked svg {
+      opacity: 1;
+    }
+
+    .export-checkbox-label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .export-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .export-toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--text);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      z-index: 1100;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 150ms, transform 150ms;
+    }
+
+    .export-toast.visible {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
     }
 
     /* ======== RESPONSIVE ======== */
@@ -1717,7 +1911,7 @@
       <div class="drawer-footer-left">
         3 fontes convergentes · última validação 14h22
       </div>
-      <button class="control" onclick="alert('Link compartilhável gerado. Em produção, abre modal com URL de 7 dias.')">Exportar evidências</button>
+      <button class="control" onclick="openExportModal()">Exportar evidências</button>
     </div>
   </aside>
 
@@ -1744,6 +1938,47 @@
       <span><kbd>ESC</kbd>Fechar</span>
     </div>
   </div>
+
+  <!-- ======== EXPORT LINK MODAL ======== -->
+  <div class="export-overlay" id="export-overlay"></div>
+
+  <div class="export-modal" id="export-modal" role="dialog" aria-label="Link de evidências gerado">
+    <div class="export-success-icon">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M5 12.5L10 17.5L19 7.5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h2 class="export-title">Link de evidências gerado</h2>
+    <p class="export-subtitle">Compartilhe com sua equipe — expira em 7 dias.</p>
+
+    <div class="export-link-box">
+      <span class="export-link-url" id="export-link-url">https://radar.app/r/prt-vlh-seg-a8f3b2</span>
+      <button class="export-link-copy-btn" id="export-link-copy-inline">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M3 11V3.5C3 2.67 3.67 2 4.5 2H11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        <span>Copiar</span>
+      </button>
+    </div>
+
+    <div class="export-checkbox-row" id="export-permanent-toggle">
+      <div class="export-checkbox" id="export-permanent-checkbox">
+        <svg viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 6.5L5 9.5L10 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <span class="export-checkbox-label">Link permanente (sem expiração)</span>
+    </div>
+
+    <div class="export-footer">
+      <button class="control" id="export-close-btn">Fechar</button>
+      <button class="primary-btn" id="export-copy-btn">Copiar link</button>
+    </div>
+  </div>
+
+  <div class="export-toast" id="export-toast">Link copiado para a área de transferência</div>
 
 <script>
 /* ======== DADOS MOCKADOS ======== */
@@ -2216,6 +2451,110 @@ document.addEventListener('keydown', (e) => {
     }
   }
 });
+
+/* ============================================================
+   EXPORT LINK MODAL — Link compartilhável de evidências
+   Acionado pelo botão "Exportar evidências" no rodapé do drawer.
+   ============================================================ */
+
+const exportOverlay = document.getElementById('export-overlay');
+const exportModal = document.getElementById('export-modal');
+const exportCloseBtn = document.getElementById('export-close-btn');
+const exportCopyBtn = document.getElementById('export-copy-btn');
+const exportCopyInline = document.getElementById('export-link-copy-inline');
+const exportLinkUrl = document.getElementById('export-link-url');
+const exportPermanentToggle = document.getElementById('export-permanent-toggle');
+const exportPermanentCheckbox = document.getElementById('export-permanent-checkbox');
+const exportToast = document.getElementById('export-toast');
+
+let exportToastTimer = null;
+let exportCopyTimer = null;
+
+function openExportModal() {
+  // Reset estado visual
+  exportPermanentCheckbox.classList.remove('checked');
+  exportLinkUrl.textContent = 'https://radar.app/r/prt-vlh-seg-a8f3b2';
+  setInlineCopyState(false);
+
+  exportOverlay.classList.add('open');
+  exportModal.classList.add('open');
+}
+
+function closeExportModal() {
+  exportOverlay.classList.remove('open');
+  exportModal.classList.remove('open');
+}
+
+function setInlineCopyState(copied) {
+  if (copied) {
+    exportCopyInline.classList.add('copied');
+    exportCopyInline.querySelector('span').textContent = 'Copiado!';
+  } else {
+    exportCopyInline.classList.remove('copied');
+    exportCopyInline.querySelector('span').textContent = 'Copiar';
+  }
+}
+
+function showExportToast(msg) {
+  exportToast.textContent = msg;
+  exportToast.classList.add('visible');
+  clearTimeout(exportToastTimer);
+  exportToastTimer = setTimeout(() => {
+    exportToast.classList.remove('visible');
+  }, 2000);
+}
+
+function copyLinkToClipboard() {
+  const url = exportLinkUrl.textContent;
+
+  // navigator.clipboard pode falhar em contextos inseguros — fallback via textarea
+  const doFallback = () => {
+    const ta = document.createElement('textarea');
+    ta.value = url;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (err) { /* silencioso */ }
+    document.body.removeChild(ta);
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).catch(doFallback);
+  } else {
+    doFallback();
+  }
+
+  setInlineCopyState(true);
+  showExportToast('Link copiado');
+  clearTimeout(exportCopyTimer);
+  exportCopyTimer = setTimeout(() => setInlineCopyState(false), 2000);
+}
+
+// Eventos
+exportOverlay.addEventListener('click', closeExportModal);
+exportCloseBtn.addEventListener('click', closeExportModal);
+exportCopyBtn.addEventListener('click', copyLinkToClipboard);
+exportCopyInline.addEventListener('click', copyLinkToClipboard);
+
+exportPermanentToggle.addEventListener('click', () => {
+  const isChecked = exportPermanentCheckbox.classList.toggle('checked');
+  // Atualiza URL para refletir o estado (apenas cosmético no protótipo)
+  if (isChecked) {
+    exportLinkUrl.textContent = 'https://radar.app/r/perm/prt-vlh-seg-a8f3b2';
+  } else {
+    exportLinkUrl.textContent = 'https://radar.app/r/prt-vlh-seg-a8f3b2';
+  }
+  setInlineCopyState(false);
+});
+
+// ESC fecha (prioridade: modal de export antes do drawer, porque está sobreposto)
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && exportModal.classList.contains('open')) {
+    e.stopPropagation();
+    closeExportModal();
+  }
+}, true);
 
 </script>
 </body>
